@@ -36,6 +36,27 @@ module Thrift
       end
     end
     
+    def read_type(type)
+      case type
+      when Types::BOOL
+        read_bool
+      when Types::BYTE
+        read_byte
+      when Types::DOUBLE
+        read_double
+      when Types::I16
+        read_i16
+      when Types::I32
+        read_i32
+      when Types::I64
+        read_i64
+      when Types::STRING
+        read_string
+      else
+        raise NotImplementedError
+      end
+    end
+    
     def skip(type)
       case type
       when Types::STOP

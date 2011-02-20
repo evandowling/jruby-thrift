@@ -21,4 +21,6 @@ module Thrift
    
   Exception = org.apache.thrift.TException
   ApplicationException = org.apache.thrift.TApplicationException
+  TransportException = org.apache.thrift.transport.TTransportException
+  ProtocolException = org.apache.thrift.protocol.TProtocolException
 end

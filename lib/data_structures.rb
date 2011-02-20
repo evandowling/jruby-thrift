@@ -1,5 +1,6 @@
 include_class 'org.apache.thrift.TUnion'
 include_class 'org.apache.thrift.protocol.TStruct'
+include_class 'org.apache.thrift.protocol.TField'
 
 module Thrift
   Union = org.apache.thrift.TUnion
@@ -66,9 +67,9 @@ module Thrift
     def read(iprot)
       iprot.read_struct_begin
       loop do
-        fname, ftype, fid = iprot.read_field_begin
-        break if (ftype == Types::STOP)
-        handle_message(iprot, fid, ftype)
+        field = iprot.read_field_begin
+        break if (field.type == Types::STOP)
+        handle_message(iprot, field.id, field.type)
         iprot.read_field_end
       end
       iprot.read_struct_end
@@ -250,8 +251,9 @@ module Thrift
         end
         iprot.read_map_end
       when Types::LIST
-        e_type, size = iprot.read_list_begin
-        value = Array.new(size) do |n|
+        type = iprot.read_list_begin
+        puts type
+        value = Array.new(type.size) do |n|
           read_field(iprot, field_info(field[:element]))
         end
         iprot.read_list_end
