@@ -1,4 +1,6 @@
 include_class 'org.apache.thrift.TUnion'
+include_class 'org.apache.thrift.protocol.TStruct'
+
 module Thrift
   Union = org.apache.thrift.TUnion
   module Struct
@@ -75,14 +77,14 @@ module Thrift
 
     def write(oprot)
       validate
-      oprot.write_struct_begin(self.class.name)
+      oprot.write_struct_begin(org.apache.thrift.protocol.TStruct.new(self.class.name))
       each_field do |fid, field_info|
         name = field_info[:name]
         type = field_info[:type]
         value = instance_variable_get("@#{name}")
         unless value.nil?
           if is_container? type
-            oprot.write_field_begin(name, type, fid)
+            oprot.write_field_begin(org.apache.thrift.protocol.TField.new(name, type, fid))
             write_container(oprot, value, field_info)
             oprot.write_field_end
           else
